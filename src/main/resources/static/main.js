@@ -10,10 +10,9 @@ async function carregarLista() {
         data.results.forEach((pokemon, index) => {
             const item = document.createElement('div');
             item.className = 'pokemon-item';
-            // Mostra o número da Pokédex + Nome
+
             item.innerText = `#${index + 1} - ${pokemon.name}`;
 
-            // Evento de clique para carregar a ficha
             item.onclick = () => carregarDetalhes(pokemon.name);
 
             listContainer.appendChild(item);
@@ -46,7 +45,7 @@ async function carregarDetalhes(nome) {
         detailContainer.innerHTML = `
        <div class="pokemon-card" style="overflow-y: auto; max-height: 520px; text-align: left;">
                 <div style="text-align: center;">
-                    <img src="${pokemon.sprites.frontDefault}" alt="${pokemon.name}" style="width: 120px; height: 120px;">
+                    <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}" style="width: 120px; height: 120px;">
                     <h2>${pokemon.name}</h2>
                 </div>
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
