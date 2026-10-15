@@ -1,27 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pokémons 1ª Geração</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-<h1>Pokémons 1ª Geração</h1>
 
-<div class="container">
-    <div class="pokemon-list" id="pokemonList">
-        <p style="text-align:center; color:#888;">Carregando lista...</p>
-    </div>
+<h1><span class="titulo-destaque">Pokémons</span> 1ª Geração #001–151 <span class="pokebola" aria-hidden="true"></span></h1>
 
-    <div class="pokemon-detail" id="pokemonDetail">
-        <p class="placeholder-text">Selecione um Pokémon na lista ao lado para ver a ficha.</p>
-    </div>
-</div>
+<main class="container">
+    <!-- Painel esquerdo: lista -->
+    <section class="panel" aria-label="Lista de Pokémons">
+        <div class="leds" aria-hidden="true">
+            <span class="led led-azul"></span>
+            <span class="led led-verde"></span>
+        </div>
+        <div class="list-wrap">
+            <div class="pokemon-list" id="pokemonList">
+                <p class="aviso">Carregando lista...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Painel direito: ficha -->
+    <section class="panel" aria-label="Ficha do Pokémon">
+        <div class="detail-frame">
+            <div class="pokemon-detail" id="pokemonDetail" aria-live="polite">
+                <p class="placeholder-text">Selecione um Pokémon na lista para ver a ficha.</p>
+            </div>
+        </div>
+    </section>
+</main>
 
 <script src="main.js"></script>
 </body>
 </html>
-
-
