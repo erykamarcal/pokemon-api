@@ -34,9 +34,9 @@ async function carregarDetalhes(nome) {
         const response = await fetch(`${API_BASE}/${nome}`);
         const pokemon = await response.json();
         const tiposHtml = pokemon.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join('');
-        const habilidadesHtml = pokemon.abilities.map(a => {
-            return `<li>${a.ability.name} ${a.isHidden ? '(Oculta)' : ''}</li>`;
-        }).join('');
+        const habilidadesHtml = pokemon.abilities
+            .map(a => `<span style="text-transform: capitalize;">${a.ability.name}</span>`)
+            .join(', ');
 
         const statsHtml = pokemon.stats.map(s => {
             return `<div><strong>${s.stat.name.toUpperCase()}:</strong> ${s.base_stat}</div>`;
@@ -49,22 +49,25 @@ async function carregarDetalhes(nome) {
                     <h2>${pokemon.name}</h2>
                 </div>
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-                <p><strong>Altura:</strong> ${pokemon.height / 10} m | <strong>Peso:</strong> ${pokemon.weight / 10} kg</p>
+                <p><strong>ALTURA:</strong> ${pokemon.height / 10} m | <strong>Peso:</strong> ${pokemon.weight / 10} kg</p> 
                 
                 <div style="margin-bottom: 10px;">
-                    <strong>Tipos:</strong>
-                    <div class="types" style="display: inline-flex; margin-left: 5px;">${tiposHtml}</div>
+                    <strong>TIPOS:
+                    <div class="types" style="display: inline-flex; margin-left: 5px;">${tiposHtml}</div></strong>
                 </div>
 
-                <div style="margin-bottom: 10px;">
-                    <strong>Habilidades:</strong>
-                    <ul style="margin: 5px 0; padding-left: 20px; font-size: 14px;">${habilidadesHtml}</ul>
-                </div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+    <strong>HABILIDADES:</strong>
+    <div style="display: flex; gap: 6px; flex-wrap: wrap; font-size: 14px;">
+        ${habilidadesHtml}
+    </div>
+</div>
 
                 <div>
-                    <strong>Estatísticas (Stats):</strong>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 13px; margin-top: 5px; background: #f9f9f9; padding: 10px; border-radius: 6px;">
+                    <strong>ESTATÍSTICAS:</strong>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; margin-top: 5px; padding-left: 5px;">
                         ${statsHtml}
+                        
                 </div>
             </div>
         </div>
