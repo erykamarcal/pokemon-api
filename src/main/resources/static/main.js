@@ -1,16 +1,18 @@
-const API_BASE = 'http://localhost:8080/api/pokemons';
+const API_BASE = 'https://pokeapi.co/api/v2/pokemon';
+
+async function buscarJson(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+}
 
 async function carregarLista() {
     const listContainer = document.getElementById('pokemonList');
 
     try {
-        const response = await fetch(API_BASE);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-
+        const data = await buscarJson(API_BASE);
         listContainer.innerHTML = '';
 
-        // Trata tanto array direto quanto retorno com objeto { results: [...] }
         const pokemons = data.results || data;
 
         pokemons.forEach((pokemon, index) => {
@@ -19,7 +21,6 @@ async function carregarLista() {
             item.tabIndex = 0;
             item.setAttribute('role', 'button');
 
-            // Formata o ID com 3 dígitos (ex: 001 - BULBASAUR)
             const numeroFormatado = String(index + 1).padStart(3, '0');
             item.innerText = `${numeroFormatado} - ${pokemon.name.toUpperCase()}`;
 
@@ -40,7 +41,6 @@ async function carregarLista() {
             listContainer.appendChild(item);
         });
 
-        // Já abre o primeiro Pokémon, como na referência
         const primeiro = listContainer.querySelector('.pokemon-item');
         if (primeiro) primeiro.click();
     } catch (error) {
@@ -49,36 +49,28 @@ async function carregarLista() {
     }
 }
 
-// Carregar os detalhes do Pokémon escolhido
 async function carregarDetalhes(nome) {
     const detailContainer = document.getElementById('pokemonDetail');
     detailContainer.innerHTML = '<p class="placeholder-text">Carregando ficha...</p>';
 
     try {
-        const response = await fetch(`${API_BASE}/${nome}`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const pokemon = await response.json();
+        const pokemon = await buscarJson(`${API_BASE}/${nome}`);
 
-        // 1. Imagem (compatível com snake_case e camelCase)
         const imagemUrl = pokemon.sprites.front_default || pokemon.sprites.frontDefault;
 
-        // 2. Tipos separados por barra
         const tiposHtml = pokemon.types
             .map(t => t.type.name.toUpperCase())
             .join(' / ');
 
-        // 3. Habilidades
         const habilidadesHtml = pokemon.abilities
             .map(a => a.ability.name.toUpperCase())
             .join(', ');
 
-        // 4. Estatísticas empilhadas (compatível com snake_case e camelCase)
         const statsHtml = pokemon.stats.map(s => {
             const valor = s.base_stat !== undefined ? s.base_stat : s.baseStat;
             return `<div>${s.stat.name.toUpperCase()}: ${valor}</div>`;
         }).join('');
 
-        // 5. Montagem da ficha
         detailContainer.innerHTML = `
             <div class="pokemon-card">
                 <div class="pokemon-card-image-box">
@@ -94,7 +86,7 @@ async function carregarDetalhes(nome) {
                     <div><span class="detail-label">TIPOS:</span> ${tiposHtml}</div>
                     <div><span class="detail-label">HABILIDADES:</span> ${habilidadesHtml}</div>
                     <div class="stats">
-                        <span class="detail-label">ESTATÍSTICAS:</span>
+                        <span class="detail-label">ESTATISTICAS:</span>
                         <div class="stats-grid">${statsHtml}</div>
                     </div>
                 </div>
@@ -106,4 +98,4 @@ async function carregarDetalhes(nome) {
     }
 }
 
-carregarLista();
+carregarLista().catch(console.error);

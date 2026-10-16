@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import tools.jackson.databind.PropertyNamingStrategies;
 import tools.jackson.databind.annotation.JsonNaming;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -19,13 +20,12 @@ public record PokemonDetailResponse(
 ) {
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public record Sprites(
-            String frontDefault,
-            String frontShiny
-    ) {}
+    public record Sprites(String frontDefault, String frontShiny) {
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record TypeSlot(Type type) {
+
         @JsonIgnoreProperties(ignoreUnknown = true)
         public record Type(String name) {
         }
@@ -37,8 +37,7 @@ public record PokemonDetailResponse(
         @JsonIgnoreProperties(ignoreUnknown = true)
         public record Stat(
                 String name
-        ) {
-        }
+        ) {}
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
